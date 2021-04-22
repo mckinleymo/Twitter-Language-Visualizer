@@ -1,13 +1,13 @@
 Package: TwitterLanguageVisualizer
-Title: What the Package Does (One Line, Title Case)
+Title: Twitter Language Visualizer
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "McKinley",
+           family = "O'Connor",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "moconnor3@usf.edu",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: A function that visualizes a count of languages used on Twitter based off of user chosen search terms.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to
     pick a license
 Encoding: UTF-8
