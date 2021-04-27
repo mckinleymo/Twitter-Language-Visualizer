@@ -1,13 +1,14 @@
-botscan
+Twitter Language Visualizer
 ================
-Kurt Wirth
-2021-04-22
+McKinley O’Connor
+2021-04-26
 
-A package extending the capability of
-[botometer](https://github.com/IUNetSci/botometer-python) by measuring
-suspected bot activity in any given Twitter query. This README is
-derived from Matt Kearney’s excellent
-[rtweet]((https://github.com/mkearney/rtweet)) documentation.
+This README is derived from Matt Kearney’s excellent \[rtweet\]
+((<https://github.com/mkearney/rtweet>)) documentation.
+
+A function that visualizes the number of languages used on Twitter in a
+bar graph based off of user chosen terms for search value, number of
+tweets and hexidecimal bar graph color.
 
 ## Install
 
@@ -30,95 +31,41 @@ to accept and authenticate rtweet.
 ## Usage
 
 To use my package there is only one function. This is how you will use
-it. There are two functions currently live for botscan.
+it.
 
-To begin, the user must first enter the following code, inserting their
-keys where appropriate:
+Its first argument takes any Twitter query surrounded by quotation
+marks. There is a default query set to search “dogs” if user does not
+designate their own search criteria.
 
-``` setup
-bom <- setup_botscan("YourMashapeKey", 
-                     "YourTwitterConsumerKey", 
-                     "YourTwitterConsumerSecret", 
-                     "YourTwitterAccessToken", 
-                     "YourTwitterAccessTokenSecret")
-```
+The second argument allows the user to specify the number of tweets to
+extract. There is a default of 100 tweets if the user does not designate
+the number of tweets they wish to search.
 
-Currently, this must be done at the start of every session.
-
-Next, the fun begins with <code>botscan</code>.
-
-Its first argument takes any Twitter query, complete with boolean
-operators if desired, surrounded by quotation marks.
-
-The next argument determines how long an open stream of tweets will be
-collected, with a default of 30 seconds. In order to gather a specific
-volume of tweets, it is suggested that the user run a small initial test
-to determine a rough rate of tweets for the given query. If the user
-prefers to use Twitter’s Search API, the next argument allows the user
-to specify the number of tweets to extract.
-
-The fourth argument determines whether retweets will be included if
-using the Search API and the fifth takes a number, less than one, that
-represents the desired threshold at which an account should be
-considered a bot. The default is .430, a reliable threshold as described
-by BotOMeter’s creator
-[here](http://www.pewresearch.org/fact-tank/2018/04/19/qa-how-pew-research-center-identified-bots-on-twitter/).
-
-The sixth argument allows the user to toggle between user-level and
-conversation-level summaries. The default is set to conversation-level
-data, understood as the proportion of the queried conversation that is
-bot-related. If <code>user\_level</code> is set to <code>TRUE</code>,
-<code>botscan</code> will return user-level data, understood to be the
-proportion of the queried conversation’s authors that are estimated to
-be bots.
-
-The seventh argument allows the user to toggle between Twitter’s Search
-and Streaming APIs. The default is set to using the Streaming API, as it
-is unfiltered by Twitter and thus produces more accurate data. Search
-API data is filtered to eliminate low quality content, thus negatively
-impacting identification of bot accounts.
-
-The eighth argument allows the user to opt out of auto-parsing of data,
-primarily useful when dealing with large volumes of data. The ninth and
-final argument defaults to keeping the user informed about the progress
-of the tool in gathering and processing data with the
-<code>verbose</code> package but can be toggled off.
+The third argument determines the hexidecimal color of the bar graph
+visualization. There is a default hexidecimal color of \#4292c6 if the
+user does not designate their own.
 
 ``` r
-## load botscan
-library(botscan)
-
-## Enter query surrounded by quotation marks
-botscan("#rstats")
-#> [1] 0.1642276
-
-## Result is percentage - in this case, 16.42276%.
-
-## If desired, choose the stream time and threshold
-botscan("#rstats", timeout = 60, threshold = .995)
-#> [1] 0.02398524
-
-## Alternatively, choose to use Twitter's Search API and options associated with it.
-botscan("#rstats", n_tweets = 1500, retweets = TRUE, search = TRUE, threshold = .995)
-#> [1] 0.03270932
-
-## Result is percentage - in this case, 2.398524%.
-
-##If desired, scan only users rather than the conversation as a whole.
-botscan("#rstats", user_level = TRUE)
-#> [1] 0.1505155
-
-## Result is percentage - in this case, 15.05155%.
+my_function = function(search = "dogs", num_tweets = 100, color = "#4292c6"){
+  # SEARCH TWITTER WITH QUERY AS SEARCH VALUE AND NUMBER OF TWEETS
+  twitter_data = rtweet::search_tweets(q = search, n = num_tweets)
+  # CREATE BAR GRAPH OF LANGUAGE COUNT
+  twitter_data %>%
+    ggplot2::ggplot() +
+    ggplot2::aes(x = lang) +
+    ggplot2::geom_bar(fill = color) +
+    ggplot2::labs(x = "Language", y = "Count", title = "Languages Used On Twitter") +
+    ggplot2::theme_minimal()
+}
 ```
 
-This process takes some time, as botscan is currently built on a loop of
-BotOMeter. Efforts to mainstream this process are set as future goals. A
-standard pull of tweets via <code>botscan</code> processes approximately
-11 to 12 accounts per minute in addition to the initial tweet streaming.
+The process of creating the visualization may take a moment. The output
+should be a bar graph visualization of the number of languages used on
+Twitter based off of the default terms or the user chosen terms for
+search value, number of tweets and hexidecimal bar graph color.
 
 Twitter rate limits cap the number of Search results returned to 18,000
-every 15 minutes. Thus, excessive use of <code>botscan</code> in a short
-amount of time may result in a warning and inability to pull results. In
-this event, simply wait 15 minutes and try again. In an effort to avoid
-the Twitter rate limit cap, <code>botscan</code> defaults to returning
-1000 results when <code>search = TRUE</code>.
+every 15 minutes. Thus, excessive use of
+<code>Twitter-Language-Visualizer</code> in a short amount of time may
+result in a warning and inability to pull results.  
+In this event, simply wait 15 minutes and try again.
