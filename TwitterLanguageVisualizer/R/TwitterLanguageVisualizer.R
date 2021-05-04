@@ -34,3 +34,4 @@ my_function = function(search = "cats", num_tweets = 100, color = "#aecca5"){
     ggplot2::labs(x = "Language", y = "Count", title = "Languages Used On Twitter") +
     ggplot2::theme_minimal()
 }
+
