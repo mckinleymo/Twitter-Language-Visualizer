@@ -1,5 +1,5 @@
 ---
-title: "Twitter Language Visualizer"
+title: "my_function"
 author: "McKinley O'Connor"
 date: "`r Sys.Date()`"
 output: github_document

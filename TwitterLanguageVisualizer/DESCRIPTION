@@ -1,5 +1,5 @@
 Package: TwitterLanguageVisualizer
-Title: Twitter Language Visualizer
+Title: my_function
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "McKinley",
